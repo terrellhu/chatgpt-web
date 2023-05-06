@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+    <!-- 引入 Ant Design 的 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/antd/4.17.3/antd.min.css" />
+    <style>
+        .container {
+            width: 800px;
+            margin: 0 auto;
+            display: flex;
+            height: 100vh;
+        }
+        .input-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            border-right: 1px solid #f0f0f0;
+        }
+        .chat-history {
+            flex: 2;
+            padding: 20px;
+            overflow-y: scroll;
+        }
+        .message-input {
+            margin-top: 20px;
+            display: flex;
+        }
+        .message-input input {
+            flex: 1;
+            margin-right: 10px;
+        }
+        .input-area input,
+        .input-area button {
+          margin-bottom: 10px;
+        }
+    </style>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <div class="input-area">
+            <input class="ant-input" id="userid" placeholder="User ID" />
+            <input class="ant-input" id="message" placeholder="Type your message..." />
+            <button class="ant-btn ant-btn-primary" id="submit">Send</button>
+            <input type="file" id="fileInput" accept=".txt, .pdf" />
+            <button class="ant-btn ant-btn-primary" id="uploadFile">Upload File</button>
+            <button class="ant-btn ant-btn-primary" id="chatFile">文档对话</button>
+        </div>
+        <div class="chat-history" id="chatHistory"></div>
+    </div>
+
+    <!-- 引入 Ant Design 的 JavaScript 文件 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/antd/4.17.3/antd.min.js"></script>
+    <!-- 添加您的 JavaScript 代码以处理页面逻辑 -->
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
