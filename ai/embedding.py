@@ -107,7 +107,8 @@ def talk_file_stuff(userid, message, history):
     try:
         embeddings = OpenAIEmbeddings(openai_api_key=config.OPENAI_API_KEY)
         vectordb = Chroma(collection_name=userid, embedding_function=embeddings, client=chroma_client)
-        llm = OpenAI(temperature=0, openai_api_key=config.OPENAI_API_KEY, model_name="gpt-3.5-turbo")
+        llm = OpenAI(temperature=0, openai_api_key=config.OPENAI_API_KEY, model_name="gpt-4")
+        # llm = OpenAI(temperature=0, openai_api_key=config.OPENAI_API_KEY, model_name="gpt-3.5-turbo")
         # If you don't know the answer, just say that you don't know. Don't try to make up an answer.
         #         ALWAYS return a "SOURCES" part in your answer.
         template = """Given the following extracted parts of a long document and a question, create a final answer with references ("SOURCES"). 
