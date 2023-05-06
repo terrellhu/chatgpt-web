@@ -25,7 +25,7 @@ def chat_with_openai(user_id, message, history):
         # model="gpt-3.5-turbo",
         model="gpt-4",
         messages=openai_messages,
-        max_tokens=8192,
+        max_tokens=4096,
         temperature=0.5,
     )
 
