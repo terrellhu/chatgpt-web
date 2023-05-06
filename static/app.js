@@ -1,5 +1,6 @@
 const submitButton = document.getElementById("submit");
 const chatFileButton = document.getElementById("chatFile");
+const uploadFileButton = document.getElementById("uploadFile");
 const userIdInput = document.getElementById("userid");
 const messageInput = document.getElementById("message");
 const chatHistory = document.getElementById("chatHistory");
@@ -26,6 +27,7 @@ submitButton.addEventListener("click", async () => {
     return;
   }
 
+  submitButton.disabled = true;
   appendMessageToChatHistory(message, "User");
 
   // 发送 POST 请求的逻辑
@@ -43,6 +45,9 @@ submitButton.addEventListener("click", async () => {
   } else {
     console.error("Error sending message:", response.status, response.statusText);
   }
+
+  // 重新启用按钮
+  submitButton.disabled = false;
 
   messageInput.value = "";
 });
@@ -65,6 +70,7 @@ chatFileButton.addEventListener("click", async () => {
     return;
   }
 
+  chatFileButton.disabled = true;
   appendMessageToChatHistory(message, "User");
 
   // 发送 POST 请求的逻辑
@@ -83,6 +89,7 @@ chatFileButton.addEventListener("click", async () => {
     console.error("Error sending message:", response.status, response.statusText);
   }
 
+  chatFileButton.disabled = false;
   messageInput.value = "";
 });
 
@@ -100,6 +107,7 @@ async function uploadFile() {
     return;
   }
 
+  uploadFileButton.disabled = true;
   const response = await fetch("/upload", {
     method: "POST",
     body: formData,
@@ -107,6 +115,7 @@ async function uploadFile() {
 
   const responseData = await response.json();
   alert(responseData.message);
+  uploadFileButton.disabled = false;
 }
 
 // 为上传按钮添加事件监听器
