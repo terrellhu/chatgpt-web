@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>登录</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <!-- 请勿在项目正式环境中引用该 layui.css 地址 -->
+    <link href="//unpkg.com/layui@2.8.2/dist/css/layui.css" rel="stylesheet">
+</head>
+<body>
+<style>
+    .demo-login-container {
+        width: 320px;
+        margin: 21px auto 0;
+    }
+
+    .demo-login-other .layui-icon {
+        position: relative;
+        display: inline-block;
+        margin: 0 2px;
+        top: 2px;
+        font-size: 26px;
+    }
+</style>
+<form class="layui-form">
+    <div class="demo-login-container">
+        <div class="layui-form-item">
+            <div class="layui-input-wrap">
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-username"></i>
+                </div>
+                <input type="text" name="username" value="" lay-verify="required" placeholder="用户名"
+                       lay-reqtext="请填写用户名" autocomplete="off" class="layui-input" lay-affix="clear">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-wrap">
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-password"></i>
+                </div>
+                <input type="password" name="password" value="" lay-verify="required" placeholder="密   码"
+                       lay-reqtext="请填写密码" autocomplete="off" class="layui-input" lay-affix="eye">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-row">
+                <div class="layui-col-xs7">
+                    <div class="layui-input-wrap">
+                        <div class="layui-input-prefix">
+                            <i class="layui-icon layui-icon-vercode"></i>
+                        </div>
+                        <input type="text" name="captcha" value="" lay-verify="required" placeholder="验证码"
+                               lay-reqtext="请填写验证码" autocomplete="off" class="layui-input" lay-affix="clear">
+                    </div>
+                </div>
+                <div class="layui-col-xs5">
+                    <div style="margin-left: 10px;">
+                        <img src="{{ url_for('auth.captcha') }}" onclick="this.src='{{ url_for('auth.captcha') }}?'+Math.random()" style="cursor: pointer; height: 40px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <input type="checkbox" name="remember" lay-skin="primary" title="记住密码">
+            <a href="#forget" style="float: right; margin-top: 7px;">忘记密码？</a>
+        </div>
+        <div class="layui-form-item">
+            <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="login">登录</button>
+        </div>
+        <div class="layui-form-item demo-login-other">
+{#            <label>社交账号登录</label>#}
+{#              <span style="padding: 0 21px 0 6px;">#}
+{#        <a href="javascript:;"><i class="layui-icon layui-icon-login-qq" style="color: #3492ed;"></i></a>#}
+{#        <a href="javascript:;"><i class="layui-icon layui-icon-login-wechat" style="color: #4daf29;"></i></a>#}
+{#        <a href="javascript:;"><i class="layui-icon layui-icon-login-weibo" style="color: #cf1900;"></i></a>#}
+{#      </span>#}
+            没有账号请： <a href="{{ url_for('auth.register') }}" style="color: #16baaa;">注册帐号</a>
+        </div>
+    </div>
+</form>
+
+<!-- 请勿在项目正式环境中引用该 layui.js 地址 -->
+<script src="//unpkg.com/layui@2.8.2/dist/layui.js"></script>
+<script>
+    layui.use(function () {
+        var form = layui.form;
+        var layer = layui.layer;
+        // 提交事件
+        form.on('submit(login)', async function (data) {
+            event.preventDefault();
+            var field = data.field; // 获取表单字段值
+
+            // 发送 POST 请求到后台登录接口
+            const response = await fetch("{{ url_for('auth.login') }}", {
+                method: "POST",
+                body: JSON.stringify(field),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (response.ok) {
+                const responseData = await response.json();
+                if (responseData.success) {
+                    layer.alert('登录成功', { title: '成功' });
+                    // 跳转到登录成功后的页面
+                    window.location.href = "{{ url_for('index') }}"; // 请替换 'some_view_function' 为您的目标视图函数
+                } else {
+                    layer.alert('登录失败: ' + responseData.message, { title: '失败' });
+                }
+            } else {
+                layer.alert('登录失败，请重试', { title: '失败' });
+            }
+
+            return false; // 阻止默认 form 跳转
+        });
+    });
+</script>
+</body>
+</html>

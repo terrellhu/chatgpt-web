@@ -10,4 +10,5 @@ class Config:
         self.DATA_UPLOAD_PATH = os.getenv("DATA_UPLOAD_PATH")
         self.CHROMA_HOST = os.getenv("CHROMA_HOST")
         self.CHROMA_PORT = os.getenv("CHROMA_PORT")
+        self.APP_KEY = os.getenv("APP_KEY")
 
