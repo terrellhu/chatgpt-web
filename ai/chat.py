@@ -22,8 +22,8 @@ def chat_with_openai(user_id, message, history):
 
     # 调用 ChatOpenAI API
     response = openai.ChatCompletion.create(
-        # model="gpt-3.5-turbo",
-        model="gpt-4",
+        model="gpt-3.5-turbo",
+        # model="gpt-4",
         messages=openai_messages,
         max_tokens=4096,
         temperature=0.5,
